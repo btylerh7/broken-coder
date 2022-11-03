@@ -1,0 +1,51 @@
+---
+layout: '../layouts/Layout.astro'
+title: 'About Tyler Baker'
+---
+
+# About Me
+## Who am I?
+```javascript
+
+const myName = 'Tyler'
+const occupation = 'Teacher, web developer, and anime advocate'
+
+
+```
+
+## What do I do?
+
+```javascript
+
+let thingsIDo = [
+    '#coder',
+    '#web-designer',
+    '#open-source-advocate',
+    '#japanese-learner',
+    '#music-producer',
+    '#music-teacher'
+] //why 'let' and not 'const', you say? Well, because the list is always changing, of course!
+
+for ( let activity of thingsIDo ) {
+    return `I love to do ${activity}!`
+}
+
+```
+
+## What can I do for **You**?
+
+```javascript
+let services = [
+    'website',
+    'api',
+    'design',
+]
+
+for ( let service of services ) {
+    return `I can make you a fantastic ${service}!`
+}
+
+
+```
+
+Want to work with me? Great! Please reach out to me at [tylerhbaker99@gmail.com](mailto:tylerhbaker99@gmail.com)!

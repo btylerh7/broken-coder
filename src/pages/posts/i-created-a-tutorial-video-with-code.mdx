@@ -1,0 +1,210 @@
+---
+layout: '../../layouts/BlogPost.astro'
+title: 'I Created a Tutorial Video with Code'
+url: '/posts/i-created-a-tutorial-video-with-code'
+date: 'October 31, 2022'
+tags: 'Remotion, React'
+description: 'Finding a way to make my life easier while making higher quality content is always a pleasant time. I made a video using the React library Remotion.'
+
+---
+import Video from '../../components/Video.astro'
+
+Teaching at an online school has provided me with many opportunities to utilize my programming skills to create meaningful and impactful projects. 
+
+When I discovered the React library called Remotion, I immediately knew what I would be using it for. 
+
+## The Purpose of the Video
+This week, my students have an assignment that has them do the following:
+
+1. Choose a pop star and find an article about whether or not they use autotune.
+2. Write a short summary of the article and state your opinions on autotune in general.
+3. Save as pdf and upload to the online classroom folder (we call them dropboxes).
+
+
+## The Setup
+To initiate the Remotion project, all you have to do is run `yarn create video` (or `npm init video`) to create a starter project. 
+
+*NOTE: you need nodejs and ffmpeg installed. See [**the installation guide**](https://www.remotion.dev/docs/) for more information!*
+
+Remotion works by creating **compositions** and importing them into the `Video.tsx` file. This file is like the home for your entire video. Here is what the main Video component looks like:
+
+```typescript
+import { Composition} from 'remotion'
+import { Intro } from './Intro'
+
+export const RemotionVideo: React.FC = () => {
+  return (
+    <>
+	  <Composition
+		id="FullVideo"
+		component={Intro}
+		durationInFrames={450}
+		fps={30}
+		width={1920}
+		height={1080}
+	  />
+	</>
+  )
+}
+```
+
+Here we can set many properties of our video:
+
+
+1. The `id` is used to label the video in the editor.
+2. The `component` that the video will be rendered from.
+3. The `durationInFrames` is set to 450, which when divided by `fps` leaves us with 15 seconds of video.
+4. `fps` or frames per second.
+5. `width` and `height` of the video.
+
+
+I decided to make my first composition be the Intro. Here is what my `Intro.tsx` looks like:
+
+```typescript
+import { AbsoluteFill, Sequence } from "remotion"
+import { Title } from "./Title"
+import { colors } from "./config/colors"
+import { fonts } from "./config/fonts"
+
+
+export const Intro = () => {
+  return (
+	<>
+	  <AbsoluteFill style={{
+		backgroundColor: colors.bgDark,
+		textAlign: "center",
+		color: colors.textWhite,
+		fontSize: fonts.fontSize,
+	  }}>
+	  </AbsoluteFill>
+	</>
+  )
+}
+```
+
+I have a config file where I set the general colors I wanted, just to make it easy to update later if needed.
+
+I have an `AbsoluteFill` component, which is basically a `div` that is absolutely positioned in the center of the frame. I have the basics, like `backgroundColor` and `fontSize` set on this so they will be the same across all the frames in the intro.
+
+Now, I would like to add text to the screen. To accomplish this, I will create some new components and wrap them in the `Sequence` tag:
+
+```typescript
+
+		<>
+			<AbsoluteFill style={{
+				backgroundColor: colors.bgDark,
+				textAlign: "center",
+				color: colors.textWhite,
+				fontSize: fonts.fontSize,
+			}}>
+				<Sequence durationInFrames={150}>
+					<Title />
+				</Sequence>
+				<Sequence from={150} durationInFrames={450}>
+					<Instructions />
+				</Sequence>
+			</AbsoluteFill>
+		</>
+```
+
+The `Sequence` tag basically allows us to render components starting at a certain point in the Composition. Here I have a `Title` component that renders at the very beginning of the Composition. The `Instructions` component does not come onto the screen until frame 150, as specified by the `from` attribute.
+
+By the way, the entire component is wrapped in a fragment because I will be adding an `Audio` component later. This library uses React, so I will need to have both of these inside one element in the return statement.
+
+## Adding Animations
+
+For my `Title` component, I decided to attempt some animations. Here is what the component looks like:
+
+```typescript
+import { interpolate, useCurrentFrame, AbsoluteFill } from "remotion"
+import { colors } from './config/colors'
+import { fonts } from "./config/fonts"
+
+export const Title = () => {
+	const frame = useCurrentFrame()
+	return (
+		<AbsoluteFill style={{
+			justifyContent: "center",
+			alignItems: "center",
+		}}>
+			<h1>How to Complete Your <br/> Pop Star Research 
+             Assignment</h1>
+			<p>Mr. Baker</p>
+		</AbsoluteFill>
+	)
+}
+```
+
+The `useCurrentFrame` hook allows us to get the current frame number. Remember that this React component is being rendered over and over to create our video.
+
+This design is not the most interesting, so I want to add some animation. Let's add a fade in effect:
+
+```typescript
+export const Title = () => {
+	const frame = useCurrentFrame()
+	const opacity = interpolate(frame, [0,30], [0, 1], {
+		extrapolateRight: "clamp",
+	})
+	return (
+		<AbsoluteFill style={{
+			justifyContent: "center",
+			alignItems: "center",
+			opacity,
+		}}>
+			<h1>How to Complete Your <br/> Pop Star Research 
+             Assignment</h1>
+			<p>Mr. Baker</p>
+		</AbsoluteFill>
+	)
+}
+```
+
+Here we are using the `interpolate` helper function. This function takes four arguments:
+
+1. The input value
+2. The range values which the input can assume
+3. The range of values that you want to map the input to
+4. Optional settings
+
+`extrapolateRight` being set to "clamp" makes sure that the value never goes above 1.
+
+Finally, we assign the opacity property to the `AbsoluteFill`. Now we will have a slow fade in!
+
+## Making the Rest of the Video
+
+Most of the rest of the video was made using these same strategies. I designed all of the layouts using React and CSS. 
+
+## Adding Audio
+
+Once I finished the video, I decided to add audio to make the video more captivating for my students. Because I am a music producer, I decided to use my favorite Digital Audio Workstation (DAW), Logic Pro X, to record and edit my audio. 
+
+You do not need Logic Pro to record your audio, though. You could record with any program or device. Once I finished recording and editing, All I had to do was add them in as an `Audio` component:
+
+```typescript
+	<>
+		<AbsoluteFill />
+			{/* components go here */}
+		</AbsoluteFill />
+		<Audio src={staticFile('intro.mp3')}
+	</>
+```
+
+To load assets, you can keep them in a folder called `public`. You can use the `staticFile` method to add the file.
+
+Remotion also has `Iframe` and `Image`  components that you should use over the traditional HTML elements. They will, like this one, take a `src` attribute.
+
+## The Final Step: Rendering the Video
+
+Now that the video was complete, all that was left to do was render it. To render a video, there is a `build` script built into the `package.json` file generated by Remotion. Make sure to adjust the script to contain the correct Composition to render and the correct location to save the video to.
+
+```json
+"build": "remotion render src/index.tsx FullVideo out/PopStarResearchOverview.mp4",
+```
+
+One issue I ran into was that you can only render one Composition at a time. To render the entire video, I had to create a new `Full Video` component and render all of the components from each composition into one component. Then, I imported that into the main `Video.tsx` file as the `FullVideo` composition. This is what I exported.
+
+## The Product
+
+Below you will find the finished video. I hope you were able to find this tutorial helpful! Please reach out to me if you have any questions or comments!
+
+<Video />

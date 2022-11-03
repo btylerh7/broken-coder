@@ -1,0 +1,53 @@
+---
+import Tag from './Tag.astro';
+
+export interface Props {
+	title: string;
+    description: string;
+    url: string;
+    tags: string[];
+}
+const { title, description, url, tags } = Astro.props as Props
+---
+
+<article class="border border-solid border-white rounded px-5 py-5">
+    <h2><a href={url}>{title}</a></h2>
+    <p>{description}</p>
+    <div class="tag-container">
+        {tags.map(tag => {
+            return (<Tag>{tag}</Tag>)
+        })}
+    </div>
+    
+    <a class="link" href={url}>Read more</a>
+</article>
+
+<style>
+    article {
+        border: 1px solid var(--text-light);
+        border-radius: .5rem;
+        padding: 1.2rem;
+        max-width: 75ch;
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+    }
+    a {
+        cursor: pointer;
+    }
+    .link {
+        padding: .2rem;
+        border: 1px solid var(--text-dark);
+        border-radius: .5rem;
+        background: var(--bg-light);
+        color: var(--text-dark);
+        text-decoration: none;
+        width: fit-content;
+    }
+    .tag-container {
+        display: flex;
+        width: fit-content;
+        gap: .5rem;
+        margin-bottom: .75rem;
+    }
+</style>

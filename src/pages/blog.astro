@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Article from '../components/Article.astro'
+const posts = await Astro.glob('../pages/posts/*.mdx')
+---
+<Layout title="Blog">
+    <div>
+        {posts.slice(0, 3).map((post) => (
+            <Article title={post.frontmatter.title} description={post.frontmatter.description} url={post.frontmatter.url} tags={post.frontmatter.tags.split(', ')}/>
+        ))}
+    </div>
+</Layout>

@@ -1,0 +1,30 @@
+---
+import Header from '../components/Header.svelte'
+import '../styles/theme.css'
+export interface Props {
+	title: string;
+}
+const { title } = Astro.props as Props
+
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<!-- TODO add meta tags for description and add SEO plugin?? -->
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body style="text-xl">
+		<div class="page-container">
+			<Header client:load />
+			<div class="content-container">
+				<slot />
+			</div>
+		</div>
+	</body>
+</html>
+
