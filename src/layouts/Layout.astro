@@ -17,6 +17,17 @@ const { title } = Astro.props as Props
 		<!-- TODO add meta tags for description and add SEO plugin?? -->
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+
+		<!-- Google tag (gtag.js) -->
+		<script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-E7W3Q39675"></script>
+		<script type="text/partytown">
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', 'G-E7W3Q39675');
+		</script>
+
 	</head>
 	<body style="text-xl">
 		<div class="page-container">

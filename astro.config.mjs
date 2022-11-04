@@ -10,8 +10,11 @@ import mdx from "@astrojs/mdx";
 import vercel from "@astrojs/vercel/serverless";
 
 // https://astro.build/config
+import partytown from "@astrojs/partytown";
+
+// https://astro.build/config
 export default defineConfig({
-  integrations: [svelte(), mdx()],
+  integrations: [svelte(), mdx(), partytown()],
   output: "server",
   adapter: vercel()
 });
