@@ -4,7 +4,8 @@ import '../styles/theme.css'
 export interface Props {
 	title: string;
 }
-const { title } = Astro.props as Props
+const { title, description, type } = Astro.props as Props
+
 
 ---
 
@@ -15,6 +16,8 @@ const { title } = Astro.props as Props
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<!-- TODO add meta tags for description and add SEO plugin?? -->
+		<meta property="og:type" content={type} />
+		<meta name="description" content={description} />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 

@@ -1,6 +1,8 @@
 ---
 layout: '../layouts/Layout.astro'
-title: 'About Tyler Baker'
+title: 'Support Me'
+description: 'If you like what I do, support me by buying me a coffee!'
+type: 'support'
 ---
 
 # Support Me!
