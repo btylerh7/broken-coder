@@ -4,10 +4,45 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="Welcome to My Blog!" description="Welcome! At Broken Coder, you will learn how to make your code overpowered." type="home">
 	<main>
-		<h1>Welcome to my blog!</h1>
+		<h1>Tyler Baker</h1>
+		<img src="/Profile Image.png" alt="Tyler Baker picture" />
+		<h2>Developer. Musician. Teacher.</h2>
+		<p>I love creating new things. Come work with me!</p>
+		<div class="my-links">
+			<a href="/blog">My Blog</a>
+			<a href="https://www.tylerbaker.dev">My Portfolio</a>
+		</div>
 	</main>
+
 </Layout>
 
 <style>
-
+	main {
+		display: flex;
+		width: 100%;
+		align-items: center;
+		flex-direction: column;
+		justify-content: center;
+		gap: 1rem;
+	}
+	img {
+		width: 100%;
+		max-width: 200px;
+		border-radius: 50%;
+		aspect-ratio: 1/1;
+		object-fit: cover;
+	}
+	.my-links {
+		display: flex;
+		justify-content: center;
+		gap: 2rem;
+		font-size: 1.5rem;
+		font-weight:500;
+	}
+	.my-links a {
+		text-decoration: none;
+	}
+	.my-links a:hover {
+		transform: scale(1.5);
+	}
 </style>
