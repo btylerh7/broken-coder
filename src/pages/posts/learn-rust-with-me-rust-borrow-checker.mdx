@@ -1,0 +1,100 @@
+---
+layout: '../../layouts/BlogPost.astro'
+title: 'Learn Rust with Me: Rust Borrow Checker'
+url: '/posts/learn-rust-with-me-rust-borrow-checker'
+date: 'December 6, 2022'
+tags: 'Rust'
+description: 'When those of us who are used to writing code in languages like JavaScript and Python, it can be difficult to wrap our heads around the *borrowing* feature that Rust uses to increase memory efficiency. After you read this article, you will have everything you need to understand references and borrowing in Rust!'
+
+---
+# Learn Rust with Me: Rust Borrow Checker
+
+When those of us who are used to writing code in languages like JavaScript and Python, it can be difficult to wrap our heads around the *borrowing* feature that Rust uses to increase memory efficiency. While it may seem like just another programming concept you just have to learn, it is actually a very important feature of Rust that allows programmers to create fast and memory-safe applications. Let's explore a little bit about borrowing in Rust.
+
+## What is borrowing?
+Let's start with the most basic programming concept: the variable.
+
+```rust
+fn main() {
+	let x = String::from("test");
+}
+```
+
+Here we have added a variable called `x` to memory that has the value of `"test"`. Not too complicated, right? Right now, the `main` function has **ownership** of the `x` variable. Now, let's use our variable in a function:
+
+```rust
+fn add_one(string:String) {
+	println!("x + 1 = {}1", string);
+}
+fn main() {
+	let x = String::from("test");
+	add_one(x);
+}
+```
+
+Something very important to note here: When we call the function `add_one` in this example, the x value is passed into the function. That's it. It's gone. It can no longer be used after this point. For example, if we tried to do this:
+
+```rust
+fn add_one(string:String) {
+	println!("x + 1 = {}1", string);
+}
+fn main() {
+	let x = String::from("test");
+	add_one(x);
+ 	println!("{}", x); //This won't work!
+}
+```
+
+We will get an error saying `borrow of moved value: "x"`. This happens because `x` is essentially no longer there. When we pass `x` to `add_one`, it remains in memory until `add_one` is completed or it gets passed somewhere else. 
+
+So how do we use `x` in our function without losing ownership of the variable? That's where borrowing comes in.
+
+## References
+In Rust, you can pass a **reference** to a variable in memory without actually changing its ownership. This is great! This makes it harder to accidentally leak data in applications. But how do we do it?
+
+To pass a reference to a variable, we need to add an `&` in front of the variable name:
+
+```rust
+fn add_one(string:String) {
+	println!("x + 1 = {}1", string);
+}
+fn main() {
+	let x = String::from("test");
+	add_one(&x); //This won't work yet
+ 	println!("{}", x);
+}
+```
+
+Great! Now the function `add_one` is **borrowing** the value of `x` without actually taking ownership of it. However, we need to change one more thing to make this compile. If we run this function now, we will get the following message: 
+
+```rust_errors
+add_one(&x);
+  |     ------- ^^ expected struct `String`, found `&String`
+  |     |
+  |     arguments to this function are incorrect
+```
+
+This is because when we defined our function, we said that the `string` variable would be of type `String`. We need to change this so that the function will expect a reference instead. Luckily, all we have to do is add `&` in front of the parameter in the function definition:
+
+```rust
+fn add_one(string:&String) {
+	println!("x + 1 = {}1", string);
+}
+fn main() {
+	let x = String::from("test");
+	add_one(&x);
+ 	println!("{}", x);
+}
+```
+
+Great! Now, when we run this function, we will see the following:
+
+```terminal
+x + 1 = test1
+test
+```
+
+## Conclusion: Focusing on Memory Safety
+Having this capability built-in to the compiler is one of the many reasons that programmers are shifting their focus to Rust. Other programming languages, such as JavaScript and Python, use **garbage collection** to determine when to remove an item from memory. This makes work easier for the programmer, but it comes with a high performance cost. It also makes it easier for *you*, the programmer, to not pay attention to how memory is being stored in your application.
+
+This is one of the many features that I love about Rust. The Rust compiler forces you to focus on these important parts of our applications, making the end result a **much** more memory-safe product.
