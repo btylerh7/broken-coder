@@ -1,6 +1,7 @@
 ---
 import Layout from "./Layout.astro"
 import '../styles/blog.css'
+import Comments from '../components/Comments.svelte'
 const { frontmatter } = Astro.props
 ---
 
@@ -9,6 +10,16 @@ const { frontmatter } = Astro.props
         <h1>{frontmatter.title}</h1>
         <p class="date">{frontmatter.date}</p>
         <slot />
+        <script src="https://utteranc.es/client.js"
+                    repo="btylerh7/broken-coder-comments"
+                    issue-term="pathname"
+                    theme="github-dark"
+                    crossorigin="anonymous"
+                    async>
+            </script>
+        <article>
+            
+        </article>
     </main>
 
 </Layout>
