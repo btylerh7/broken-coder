@@ -2,11 +2,20 @@
 import Layout from '../layouts/Layout.astro'
 import Article from '../components/Article.astro'
 const posts = await Astro.glob('../pages/posts/*.mdx')
+posts.sort((a, b) => Date.parse(b.frontmatter.date) - Date.parse(a.frontmatter.date));
 ---
 <Layout title="Blog" description="Find all of the latest content that will help you acheive your coding dreams!" type="home">
-    <div>
+    <div class="blobs">
         {posts.slice(0, 3).map((post) => (
             <Article title={post.frontmatter.title} description={post.frontmatter.description} url={post.frontmatter.url} tags={post.frontmatter.tags.split(', ')}/>
         ))}
     </div>
 </Layout>
+
+<style>
+    .blobs {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+</style>
