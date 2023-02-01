@@ -7,7 +7,9 @@ posts.sort((a, b) => Date.parse(b.frontmatter.date) - Date.parse(a.frontmatter.d
 <Layout title="Blog" description="Find all of the latest content that will help you acheive your coding dreams!" type="home">
     <div class="blobs">
         {posts.slice(0, 3).map((post) => (
-            <Article title={post.frontmatter.title} description={post.frontmatter.description} url={post.frontmatter.url} tags={post.frontmatter.tags.split(', ')}/>
+            if (post.frontmatter.drafts == false) {
+                <Article title={post.frontmatter.title} description={post.frontmatter.description} url={post.frontmatter.url} tags={post.frontmatter.tags.split(', ')}/>
+            }
         ))}
     </div>
 </Layout>
