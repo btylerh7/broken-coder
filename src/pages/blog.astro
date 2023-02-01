@@ -3,9 +3,6 @@ import Layout from '../layouts/Layout.astro'
 import Article from '../components/Article.astro'
 let posts = await Astro.glob('../pages/posts/*.mdx')
 posts.sort((a, b) => Date.parse(b.frontmatter.date) - Date.parse(a.frontmatter.date));
-for (let post of posts) {
-    if (post.frontmatter.draft == true) {posts.remove(post)}
-}
 ---
 <Layout title="Blog" description="Find all of the latest content that will help you acheive your coding dreams!" type="home">
     <div class="blobs">
