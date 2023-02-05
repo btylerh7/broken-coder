@@ -1,11 +1,13 @@
 ---
+
 layout: '../../layouts/BlogPost.astro'
 title: 'Getting Started with Open Source'
 url: '/posts/getting-started-with-open-source'
-date: 'January 17, 2023'
+date: 'February 5, 2023'
 tags: 'Open Source, GitHub'
 description: 'One of the greatest ways to learn about programming is to work on real-life projects! In this guide, we will discuss the process of contributing to projects on GitHub.'
 draft: true
+
 ---
 
 When you first start to learn programming, there is one statement you will hear **all the time**. 
@@ -17,3 +19,41 @@ Especially if you are self-taught or just recently started programming, it can b
 make changes to a codebase. "What if I completely screw up the project?" However, you do not need to worry about this. Your code will be reviewed before
 your pull request is merged, so it is unlikely that you will cause any major problems with the program. And if bugs arise, they can be fixed!
 
+Now that we've got that out of the way, let's look at some general best practices for contributing to open source projects!
+
+## Read the `CONTRIBUTING.md` File
+Many Projects have a `CONTRIBUTING.md` file which gives details on what the 
+project maintainer would like for you to do if you want to contribute.
+
+<img style="max-width: 100%; border: 1px solid white;" src="/getting-started-with-open-source/typescript_contributing_sample.jpg" />
+
+What you see above is a sample of the [CONTRIBUTING.md file for the Typescript project](https://github.com/microsoft/TypeScript/blob/main/CONTRIBUTING.md).
+There are instructions for what tools you need, what you need to do to get started once you have all the tools, and more. If a project
+has one of these files, it should be the first place you look if you want to contribute.
+
+## Make Readable code
+Open source projects are viewed by many people. While your code may make sense to you, be aware that it needs to make sense to the
+many other people that are working on the project.
+
+Take this code for example:
+``` typescript
+
+const HeaderText = "Welcome to our site!"
+const subHeaderText = "Scroll for more!"
+const make_api_call = () => {
+    //Do something
+}
+
+```
+
+Notice the many different naming conventions used. Typically, variables should not start with a capital letter, except in cases such
+as component names in React, for example. Typically, variable names are written in camel case for typescript or javascript. However, languages like python use
+different naming conventions. For a JavaScript project, `subHeaderText` would be the appropriate name. However, in Python, it would be `sub_header_text`.
+
+Most projects will have a code linting tool like ESLint to help check code for formatting inconsistensies.
+
+## Make Descriptive Pull Requests
+Some projects may have a guide for how to format your pull requests. If your project has one of these, make sure to conform to those instructions!
+
+Generally, you should provide as much detail about what you changed. The reviewer will need to know, for example, what you tried to lead you to the change you made,
+what issues you were trying to fix, and why you changed what you changed.
