@@ -4,9 +4,6 @@ import '../styles/theme.css'
 export interface Props {
 	title: string;
 }
-import { inject } from '@vercel/analytics';
-
-inject();
 const { title, description, type } = Astro.props as Props
 
 
